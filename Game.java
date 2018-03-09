@@ -4,13 +4,13 @@ public class Game {
 
 
     public static void main(String[] args) {
-        Card attack = new Card(10, 0,0,0, 0);
-        Card block = new Card(0, 10,0,0, 0);
-        Card cleanse = new Card(0,0,2, 0, 0);
+        Card attack = new Card(10, 0, 0, 0, 0);
+        Card block = new Card(0, 10, 0, 0, 0);
+        Card cleanse = new Card(0, 0, 2, 0, 0);
         Card heal = new Card(0, 0, 0, 15, 0);
         Card bossAttack = new Card(20, 0, 0, 0, 0);
         Card bossBlock = new Card(0, 30, 0, 0, 0);
-        Card bossMadness = new Card(0,0,0,0,4);
+        Card bossMadness = new Card(0, 0, 0, 0, 4);
         ArrayList<Card> kaardid = new ArrayList<>();
         ArrayList<Card> bossKaardid = new ArrayList<>();
 
@@ -32,9 +32,9 @@ public class Game {
         Deck pakk = new Deck(kaardid);
         Deck bosspakk = new Deck(bossKaardid);
 
-        Character player = new Character(100, 0,0, pakk, true);
+        Character player = new Character(100, 0, 0, pakk, true);
 
-        Character boss = new Character(200, 0,0, bosspakk, false);
+        Character boss = new Character(200, 0, 0, bosspakk, false);
 
         pakk.shuffle();
 
