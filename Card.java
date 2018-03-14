@@ -68,6 +68,9 @@ public class Card {
         else if (heal > 0){
             kaart = "Heal";
         }
+        else if (madness > 0){
+            kaart = "Madness";
+        }
         return kaart;
     }
 

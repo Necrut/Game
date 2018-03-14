@@ -17,6 +17,8 @@ public class Character {
         this.drawPile = drawPile;
         this.hand = new ArrayList<>();
         this.isPlayer = isPlayer;
+        ArrayList discardPile = new ArrayList<Card>();
+        this.discardPile = new Deck(discardPile);
     }
 
     public int getHealth() {
@@ -51,6 +53,26 @@ public class Character {
         this.drawPile = drawPile;
     }
 
+    public ArrayList<Card> seeDrawPile() {
+        return drawPile.getDeck();
+    }
+
+    public Deck getDrawPile(){
+        return drawPile;
+    }
+
+    public ArrayList<Card> seeDiscardPile() {
+        return discardPile.getDeck();
+    }
+
+    public Deck getDiscardPile() {
+        return discardPile;
+    }
+
+    public void setDiscardPile(Deck discardPile) {
+        this.discardPile = discardPile;
+    }
+
     public boolean isPlayer() {
         return isPlayer;
     }
@@ -58,8 +80,10 @@ public class Character {
     public void draw(int drawSize){
         for(int i = 0; i < drawSize; i++) {
             this.hand.add((drawPile.getDeck()).get(i));
+            seeDrawPile().remove(i);
         }
     }
+
 
     public String toString(){
         StringBuilder characterUI = new StringBuilder();
@@ -109,15 +133,24 @@ public class Character {
         for (int i = 0; i < handSize; i++){
             if (kaardiNr == i+1) {
                 Card kaart = hand.get(i);
-                if (kaart.getAttack() > 0 && target != self) {
+                if (kaart.getAttack() > 0) {
+                    if (target.getShield() > 0){
+                        if (target.getShield() < kaart.getAttack()) {
+                            kaart.setAttack(kaart.getAttack() - target.getShield());
+                            target.setShield(0);
+                        }
+                    }
                     target.setHealth(target.getHealth() - kaart.getAttack());
-                } else if (kaart.getBlock() > 0 && target == self) {
-                    target.setShield(target.getShield() + kaart.getBlock());
-                } else if (kaart.getHeal() > 0 && target == self) {
-                    target.setShield(target.getHealth() + kaart.getHeal());
-                } else if (kaart.getMadness() > 0 && target != self) {
-                    target.setShield(target.getMadness() + kaart.getMadness());
+
+                } if (kaart.getBlock() > 0) {
+                    self.setShield(self.getShield() + kaart.getBlock());
+                } if (kaart.getHeal() > 0) {
+                    self.setHealth(self.getHealth() + kaart.getHeal());
+                } if (kaart.getMadness() > 0) {
+                    target.setMadness(target.getMadness() + kaart.getMadness());
                 }
+                this.seeDiscardPile().add(hand.get(i));
+                getHand().remove(i);
             }
         }
     }

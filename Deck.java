@@ -16,9 +16,11 @@ public class Deck {
 
     public void setDeck(ArrayList<Card> deck) {
         this.deck = deck;
+        this.size = deck.size();
     }
 
     public void shuffle(){
+        this.size = deck.size();
         for (int i = 0; i < size; i++){
             int j = (int)(Math.random() * size);
             Card temp = deck.get(i);
