@@ -65,6 +65,8 @@ public class Game {
         System.out.println(player);
         System.out.println(boss);
 
-
+        //väljundis peaks olema ka bossi intent, e. mida ta oma käigul teeb, 
+        //kui seal on attack, siis näitab numbriliselt kui palju see on, 
+        //kui block või madness, siis tekstiliselt aga ei täpsusta hulka.
     }
 }
