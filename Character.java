@@ -148,7 +148,12 @@ public class Character {
                 } if (kaart.getBlock() > 0) {
                     self.setShield(self.getShield() + kaart.getBlock());
                 } if (kaart.getHeal() > 0) {
-                    self.setHealth(self.getHealth() + kaart.getHeal());
+                    if (self.getHealth() < 100){
+                        self.setHealth(self.getHealth() + kaart.getHeal());
+                        if (self.getHealth() > 100){
+                            self.setHealth(100);
+                        }
+                    }
                 } if (kaart.getMadness() > 0) {
                     target.setMadness(target.getMadness() + kaart.getMadness());
                 }
