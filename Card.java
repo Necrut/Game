@@ -1,17 +1,27 @@
 public class Card {
 
+    private String nimi;
     private int attack;
     private int block;
     private int cleanse;
     private int heal;
     private int madness;
 
-    public Card(int attack, int block, int cleanse, int heal, int madness) {
+    public Card(String nimi, int attack, int block, int cleanse, int heal, int madness) {
+        this.nimi = nimi;
         this.attack = attack;
         this.block = block;
         this.cleanse = cleanse;
         this.heal = heal;
         this.madness = madness;
+    }
+
+    public String getNimi() {
+        return nimi;
+    }
+
+    public void setNimi(String nimi) {
+        this.nimi = nimi;
     }
 
     public int getAttack() {
@@ -55,23 +65,7 @@ public class Card {
     }
 
     public String toString(){
-        String kaart = "";
-        if (attack > 0){
-            kaart = "Attack";
-        }
-        else if (block > 0){
-            kaart = "Block";
-        }
-        else if (cleanse > 0){
-            kaart = "Cleanse";
-        }
-        else if (heal > 0){
-            kaart = "Heal";
-        }
-        else if (madness > 0){
-            kaart = "Madness";
-        }
-        return kaart;
+        return getNimi();
     }
 
 }

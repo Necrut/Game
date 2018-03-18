@@ -4,13 +4,13 @@ public class Game {
 
 
     public static void main(String[] args) {
-        Card attack = new Card(10, 0,0,0, 0);
-        Card block = new Card(0, 10,0,0, 0);
-        Card cleanse = new Card(0,0,2, 0, 0);
-        Card heal = new Card(0, 0, 0, 15, 0);
-        Card bossAttack = new Card(20, 0, 0, 0, 2);
-        Card bossBlock = new Card(0, 30, 0, 0, 0);
-        Card bossMadness = new Card(0,0,0,0,4);
+        Card attack = new Card("Attack", 10, 0,0,0, 0);
+        Card block = new Card("Block", 0, 10,0,0, 0);
+        Card cleanse = new Card("Cleanse", 0,0,2, 0, 0);
+        Card heal = new Card("Heal", 0, 0, 0, 15, 0);
+        Card bossAttack = new Card("BossAttack", 20, 0, 0, 0, 2);
+        Card bossBlock = new Card("BossBlock", 0, 30, 0, 0, 0);
+        Card bossMadness = new Card("BossMadness", 0,0,0,0,4);
         ArrayList<Card> kaardid = new ArrayList<>();
         ArrayList<Card> bossKaardid = new ArrayList<>();
 
@@ -65,8 +65,6 @@ public class Game {
         System.out.println(player);
         System.out.println(boss);
 
-        //väljundis peaks olema ka bossi intent, e. mida ta oma käigul teeb, 
-        //kui seal on attack, siis näitab numbriliselt kui palju see on, 
-        //kui block või madness, siis tekstiliselt aga ei täpsusta hulka.
+
     }
 }

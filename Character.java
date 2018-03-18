@@ -138,7 +138,8 @@ public class Character {
                         if (target.getShield() < kaart.getAttack()) {
                             kaart.setAttack(kaart.getAttack() - target.getShield());
                             target.setShield(0);
-                        } else {
+                        }
+                        else {
                             target.setShield(target.getShield() - kaart.getAttack());
                             kaart.setAttack(0);
                         }
