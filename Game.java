@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Game {
@@ -13,6 +15,9 @@ public class Game {
         Card trollAttack = new Card("Attack", 30, 0, 0, 0, 2);
         Card trollBlock = new Card("Block", 0, 30, 0, 0, 0);
         Card trollMadness = new Card("Madness", 0, 0, 0, 0, 4);
+        Card necroAttack = new Card("Attack", 20, 0, 0, 10, 1);
+        Card necroBlock = new Card("Block", 10, 20, 0, 0, 0);
+        Card necroMadness = new Card("Madness", 0, 0, 0, 10, 3);
         ArrayList<Card> playerCards = new ArrayList<>(); // teeme tühjad listid pakkide jaoks
         ArrayList<Card> trollCards = new ArrayList<>();
         ArrayList<Card> necroCards = new ArrayList<>();
@@ -31,6 +36,11 @@ public class Game {
                 trollCards.add(trollMadness);
             }
         }
+        necroCards.add(necroAttack);
+        necroCards.add(necroBlock);
+        necroCards.add(necroBlock);
+        necroCards.add(necroMadness);
+
         Deck playerDeck = new Deck(playerCards); // listist playerCards tehakse deck
         Deck trollDeck = new Deck(trollCards); // listist trollCards tehakse deck
         Deck necroDeck = new Deck(necroCards);
@@ -39,25 +49,37 @@ public class Game {
         Character troll = new Character(200, 0, 0, trollDeck, false); // deck trollCards saab bossile
         Character necromancer = new Character(100, 0, 0, necroDeck, false);
 
+        Map<String, Character> bosses = new HashMap<>();
+        bosses.put("gorganon", troll);
+        bosses.put("tim", necromancer);
+
         player.getDrawPile().shuffle(); // segame mängija playerCards
 
 // MAIN PLAY LOOP
         Scanner reader = new Scanner(System.in);
         boolean gameOn = true;
         boolean firstTurn = true;
+        System.out.println("Would you like to battle \"Gorganon\" the Mountain Troll or \"Tim\" the Necromancer?");
+        String bossName = reader.next().toLowerCase();
+        Character boss = bosses.get(bossName);
         while (gameOn) {
-            if (firstTurn == true) {
-                System.out.println("You are battling the great scary mountain troll Gorganon! Enter \"pass\" to end your turn. Enter \"exit\" to exit.\n");
+            if (firstTurn) {
+                if (bossName.equals("gorganon")) {
+                    System.out.println("You are battling the great scary mountain troll Gorganon! Enter \"pass\" to end your turn. Enter \"exit\" to exit.\n");
+                }
+                else if (bossName.equals("tim")) {
+                    System.out.println("You are battling the renowned necromancer Tim the Terrible! Enter \"pass\" to end your turn. Enter \"exit\" to exit.\n");
+                }
                 System.out.println("----YOU----\n" + player);
-                System.out.println("--GORGANON--\n" + troll);
+                System.out.println("--"+bossName.toUpperCase()+"--\n" + boss);
                 player.draw(5); // esimesel käigul tõmbab mängija erandlikult 5 kaarti
                 firstTurn = false;
-                troll.draw(1); // bossil on alati 1 kaart, ta mängib selle alati
+                boss.draw(1); // bossil on alati 1 kaart, ta mängib selle alati
             } else {
-                if (troll.seeDrawPile().size() < 1) { // kui bossi drawPile's on alla 1 kaardi
-                    for (int i = 0; i < troll.seeDiscardPile().size(); i++) { // ja lisame discardPile'st kaardid drawPile'sse
-                        troll.seeDrawPile().add(troll.seeDiscardPile().get(0));
-                        troll.seeDiscardPile().remove(0); // teeme discardPile'i tühjaks
+                if (boss.seeDrawPile().size() < 1) { // kui bossi drawPile's on alla 1 kaardi
+                    for (int i = 0; i < boss.seeDiscardPile().size(); i++) { // ja lisame discardPile'st kaardid drawPile'sse
+                        boss.seeDrawPile().add(boss.seeDiscardPile().get(0));
+                        boss.seeDiscardPile().remove(0); // teeme discardPile'i tühjaks
                     }
                 }
                 if (player.seeDrawPile().size() < 3) { // kui mängija drawPile's on alla 3 kaardi
@@ -68,7 +90,7 @@ public class Game {
                     }
                 }
             }
-            System.out.println("Your opponent will use: " + troll.getHand());
+            System.out.println("Your opponent will use: " + boss.getHand());
             System.out.println("Select your course of action - enter three different card numbers."); // teade iga käigu alguses
             for (int i = 0; i < 3; i++) { // võtab mängijalt 3 sisendit (tavaliselt kaardinumbrid)
                 if (player.getHealth() <= 0) {
@@ -83,12 +105,11 @@ public class Game {
                 }
                 if (troll.getHealth() <= 0) {
                     gameOn = false;
-                    System.out.println("You defeated Gorganon! Congratulations!");
+                    System.out.println("You defeated "+(bossName.substring(0, 1).toUpperCase() + bossName.substring(1))+"! Congratulations!");
                     break;
                 }
                 System.out.println(player.getHand()); // trükib käe välja
-                //int kaart = reader.nextInt(); // kuulame, mis number meile antakse
-                String command = reader.next(); // kuulame, mis sisend
+                String command = reader.next(); // kuulame, mis sisend meile antakse
                 if (command.toLowerCase().equals("exit")) { // kui saame "exit", siis lõpetame mängu
                     gameOn = false;
                     i = 3;
@@ -99,9 +120,9 @@ public class Game {
                     } // kui saame "pass", siis anname käigu bossile edasi
                     else if (0 < Integer.parseInt(command) && Integer.parseInt(command) < 21 &&
                             Integer.parseInt(command) <= player.getHand().size()) { // saame kaardinumbri
-                        player.play(Integer.parseInt(command), player, troll);
+                        player.play(Integer.parseInt(command), player, boss);
                         System.out.println("----YOU----\n" + player);
-                        System.out.println("--GORGANON--\n" + troll);
+                        System.out.println("--"+bossName.toUpperCase()+"--\n" + boss);
                     }
                     else {
                         System.out.println("You don't have that many cards, try again.\n");
@@ -110,11 +131,11 @@ public class Game {
                 }
             }
             troll.setShield(0);
-            if (gameOn == true) {
-                troll.play(1, troll, player);
+            if (gameOn) {
+                boss.play(1, boss, player);
                 player.setShield(0);
                 System.out.println("----YOU----\n" + player);
-                System.out.println("--GORGANON--\n" + troll);
+                System.out.println("--"+bossName.toUpperCase()+"--\n" + boss);
                 if (player.getHealth() <= 0) {
                     gameOn = false;
                     System.out.println("You died!\nGame over.");
@@ -123,12 +144,12 @@ public class Game {
                     gameOn = false;
                     System.out.println("You went mad!\nGame over.");
                 }
-                if (troll.getHealth() <= 0) {
+                if (boss.getHealth() <= 0) {
                     gameOn = false;
-                    System.out.println("You defeated Gorganon! Congratulations!");
+                    System.out.println("You defeated "+(bossName.substring(0, 1).toUpperCase() + bossName.substring(1))+"! Congratulations!");
                 }
                 player.draw(3);
-                troll.draw(1);
+                boss.draw(1);
             }
         }
         reader.close();
