@@ -49,7 +49,7 @@ public class Game {
         Character troll = new Character(200, 0, 0, trollDeck, false); // deck trollCards saab bossile
         Character necromancer = new Character(100, 0, 0, necroDeck, false);
 
-        Map<String, Character> bosses = new HashMap<>();
+        Map<String, Character> bosses = new HashMap<>(); // map vastaste hoiustamiseks
         bosses.put("gorganon", troll);
         bosses.put("tim", necromancer);
 
@@ -60,7 +60,7 @@ public class Game {
         boolean gameOn = true;
         boolean firstTurn = true;
         System.out.println("Would you like to battle \"Gorganon\" the Mountain Troll or \"Tim\" the Necromancer?");
-        String bossName = reader.next().toLowerCase();
+        String bossName = reader.next().toLowerCase(); // sisendiks võtame bossi nime, mis on mapis Characteri võtmeks
         Character boss = bosses.get(bossName);
         while (gameOn) {
             if (firstTurn) {
@@ -69,7 +69,7 @@ public class Game {
                 }
                 else if (bossName.equals("tim")) {
                     System.out.println("You are battling the renowned necromancer Tim the Terrible! Enter \"pass\" to end your turn. Enter \"exit\" to exit.\n");
-                }
+                } else break;
                 System.out.println("----YOU----\n" + player);
                 System.out.println("--"+bossName.toUpperCase()+"--\n" + boss);
                 player.draw(5); // esimesel käigul tõmbab mängija erandlikult 5 kaarti
@@ -118,14 +118,18 @@ public class Game {
                     if (command.toLowerCase().equals("pass")) {
                         i = 3;
                     } // kui saame "pass", siis anname käigu bossile edasi
-                    else if (0 < Integer.parseInt(command) && Integer.parseInt(command) < 21 &&
+                    try {if (0 < Integer.parseInt(command) && Integer.parseInt(command) < 21 && // kui sisend on täisarv, mis näitab mingile kaardile käes
                             Integer.parseInt(command) <= player.getHand().size()) { // saame kaardinumbri
-                        player.play(Integer.parseInt(command), player, boss);
+                        player.play(Integer.parseInt(command), player, boss);   // mängime kaardi indeksiga (sisestatud number - 1)
                         System.out.println("----YOU----\n" + player);
                         System.out.println("--"+bossName.toUpperCase()+"--\n" + boss);
                     }
                     else {
-                        System.out.println("You don't have that many cards, try again.\n");
+                        System.out.println("You don't have that many cards, try again.\n");  // kui sisend on täisarv ja suurem kaartide arvust käes
+                        i -= 1;
+                    }
+                    } catch (NumberFormatException nope){   // püüame erindi mis tekib kirjutades midagi, mis ei kuulu sobivate tegevuste hulka.
+                        System.out.println("That doesn't work, try numbers.\n");
                         i -= 1;
                     }
                 }
