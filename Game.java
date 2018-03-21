@@ -134,7 +134,7 @@ public class Game {
                     }
                 }
             }
-            troll.setShield(0);
+            boss.setShield(0);
             if (gameOn) {
                 boss.play(1, boss, player);
                 player.setShield(0);
