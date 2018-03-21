@@ -103,7 +103,7 @@ public class Game {
                     System.out.println("You went mad!\nGame over.");
                     break;
                 }
-                if (troll.getHealth() <= 0) {
+                if (boss.getHealth() <= 0) {
                     gameOn = false;
                     System.out.println("You defeated "+(bossName.substring(0, 1).toUpperCase() + bossName.substring(1))+"! Congratulations!");
                     break;
